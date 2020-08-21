@@ -1,0 +1,8 @@
+func testAccAWSDBInstanceConfig_FinalSnapshotIdentifier(rInt int) string {
+	return fmt.Sprintf(`
+resource "aws_db_instance" "snapshot" {
+  identifier = "tf-snapshot-%[1]d"
+  final_snapshot_identifier = "%[2]s%[2]sfoobarbaz-test-terraform-final-snapshot-%[1]d"
+}
+`, rInt, "hello")
+}
