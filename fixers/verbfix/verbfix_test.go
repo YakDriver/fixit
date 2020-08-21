@@ -5,6 +5,32 @@ import (
 	"testing"
 )
 
+func TestBasic(t *testing.T) {
+	before := fmt.Sprintf(`
+func testAccDbInstanceConfigMonitoringRoleArnRemoved(rName string) string {
+	return fmt.Sprintf(%[1]s
+resource "aws_db_instance" "test" {
+  identifier          = %%[1]q
+}
+%[1]s, rName)
+}
+`, "`")
+
+	after := fmt.Sprintf(`
+func testAccDbInstanceConfigMonitoringRoleArnRemoved(rName string) string {
+	return fmt.Sprintf(%[1]s
+resource "aws_db_instance" "test" {
+  identifier          = %%q
+}
+%[1]s, rName)
+}
+`, "`")
+
+	if FixIt(before) != after {
+		t.Errorf("got %v; want %v", FixIt(before), after)
+	}
+}
+
 func TestSimpleReduce(t *testing.T) {
 	before := fmt.Sprintf(`
 func testAccAWSDBInstanceConfig_FinalSnapshotIdentifier(rInt int) string {

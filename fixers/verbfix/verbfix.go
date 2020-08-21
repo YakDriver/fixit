@@ -76,7 +76,7 @@ func fixReplacements(match string) replacers {
 	varIndex := 0
 	verbIndex := 0
 	var keys []string
-	indicesCount := make(map[string]int)
+	varCount := make(map[string]int)
 	useIndices := false
 	for i := 0; i < max(len(vars), len(r.oldVerbs)); i++ {
 		//current
@@ -87,18 +87,18 @@ func fixReplacements(match string) replacers {
 		verbIndex++
 
 		glog.Infof("verbIndex: %d\tvarIndex %d\tkey: %q\t", verbIndex, varIndex, key)
-		if c, ok := indicesCount[key]; ok {
+		if c, ok := varCount[varr]; ok {
 			useIndices = true
-			indicesCount[key] = c + 1
+			varCount[varr] = c + 1
 		} else {
-			indicesCount[key] = 1
+			varCount[varr] = 1
 			r.newVars = append(r.newVars, varr)
 			glog.Info(" not")
 		}
 		glog.Info(" contained\n")
 
 	}
-	glog.Infof("indices: %q\n", indicesCount)
+	glog.Infof("varCount: %q\n", varCount)
 	glog.Infof("keys: %q\n", keys)
 	glog.Infof("r.newVars: %q\n", r.newVars)
 
